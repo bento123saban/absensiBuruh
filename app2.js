@@ -383,7 +383,7 @@ class STATIC {
         });
     }
 }
-
+ 
 
 // <option value="" disabled selected></option>
 class absensi {
@@ -408,11 +408,11 @@ class absensi {
         
         if (!localStorage.getItem("last-update")) {
             console.log("sjfnkjdsbfkjdsbfkjdbfjsbfkjdbsfkjdb")
-            this.allRequest()
+            //this.allRequest()
         } else {
             const last = JSON.parse(localStorage.getItem("last-update"))
             const satuJam = 1000 * 60 * 60
-            if (last + satuJam <= Date.now()) return this.allRequest()
+            //if (last + satuJam <= Date.now()) return this.allRequest()
         }
         this.eventListener()
         this.checkInterval = setInterval(() => this.collectAndCheck(), 2000)
@@ -429,6 +429,149 @@ class absensi {
             Submit      : document.querySelector("#submit")
         }
     }
+    
+    
+    eventListener(){
+        document.querySelector("#to-absen").onclick = async () => {
+            STATIC.loaderRun('request_data')
+            
+            await this.requestData()
+            await this.readData()
+            document.querySelector("#home").classList.add("dis-none")
+            document.querySelector("#list-data").classList.add("dis-none")
+            document.querySelector("#main").classList.remove("dis-none")
+            const formInterval = setInterval(() => {
+                if (!localStorage.getItem('dataBuruh')) return
+                STATIC.loaderStop()
+                clearInterval(formInterval)
+            }, 1000)
+        }
+        document.querySelector("#to-data").onclick = async () => {
+            STATIC.loaderRun('update_data')
+            await this.getThreeDays()
+            await this.setDataPengawas()
+            document.querySelector("#home").classList.add("dis-none")
+            document.querySelector("#list-data").classList.remove("dis-none")
+            document.querySelector("#main").classList.add("dis-none")
+            const formInterval = setInterval(() => {
+                if (!localStorage.getItem('data3hari')) return
+                STATIC.loaderStop()
+                clearInterval(formInterval)
+            }, 1000)
+        }
+        document.querySelectorAll(".to-home").forEach(toHome => {
+            toHome.onclick = () => {
+                document.querySelector("#home").classList.remove("dis-none")
+                document.querySelector("#list-data").classList.add("dis-none")
+                document.querySelector("#main").classList.add("dis-none")
+            }
+        })
+        //document.querySelector("#to-update").onclick = () => this.allRequest()
+        this.getCoord.onclick = () => {
+            console.log("clicked")
+            if (this.coordProscess) return
+            this.coordLoader.classList.remove("dis-none")
+            this.elements().Koordinat.placeholder = "Mendeteksi lokasi..."
+            this.coordProscess = true
+            this.autoDetectLocation()
+            setTimeout(() => {
+                this.coordLoader.classList.add("dis-none")
+                this.coordProscess = false
+            }, 2000)
+        }
+        this.elements().Tipe.forEach(radio => {
+
+            // Pilih Tipe. Taman atau Berem
+            radio.addEventListener("change", async () => {
+                const data = await this.readData()
+                const tipe = document.querySelector(`input[name="tipe"]:checked`).value.toUpperCase()
+
+                let pengawasHTML = `<option value="" disabled selected>-- pilih pengawas --</option>`
+                // looping data pengawas
+                data.pengawas.forEach(man => { 
+                    const TIPE = man.TIPE.toUpperCase();
+                    TIPE.indexOf(tipe) >= 0 ? pengawasHTML += `<option value="${man.NAMA}">${man.NAMA}</option>` : ''
+                })
+
+                this.elements().Pengawas.disabled = false
+                this.elements().Pengawas.innerHTML = pengawasHTML
+                this.elements().Buruh.disabled = true
+                this.elements().Buruh.innerHTML = ""
+                this.lokasiBox.innerHTML = "-"
+                
+                // Pilih pengawas. Tentukan lokasi dan buruh
+                this.elements().Pengawas.addEventListener("change", async (e) => {
+                    const pengawas = this.elements().Pengawas.value.toUpperCase()
+
+                    let lokasiHTML = ``
+                    // looping data lokasi
+                    data.lokasi.forEach(place => {
+                        const PENGAWAS = place.PENGAWAS;
+                        PENGAWAS.toUpperCase().indexOf(pengawas) >= 0 ? lokasiHTML += `
+                            <label class="radio-inline">
+                                <input type="radio" name="lokasi" value="${place.NAMA}"> ${place.NAMA}
+                            </label>` : ''
+                    })
+
+                    let buruhHTML = `<option value="" disabled selected>-- pilih buruh --</option>`
+                    // looping data buruh
+                    data.buruh.forEach(man => {
+                        const TIPE      = man.TIPE.toUpperCase()
+                        const PENGAWAS  = man.PENGAWAS.toUpperCase()
+                        PENGAWAS.indexOf(pengawas) >= 0 && TIPE.indexOf(tipe) >= 0 ? buruhHTML += `<option value="${man.NAMA}">${man.NAMA}</option>` : ''
+                    })
+                    
+                    this.elements().Lokasi.innerHTML    = lokasiHTML
+                    this.elements().Buruh.disabled      = false
+                    this.elements().Buruh.innerHTML     = buruhHTML
+                    this.lokasiBox.innerHTML            = lokasiHTML
+
+                })
+            })
+        })
+        this.toCapture.onclick = () => {
+            if (this.elements().Buruh.value == "") return alert("Masukan data diatas terlebih dahulu")
+            this.countCamera()
+            this.setCamera()
+            document.querySelector("#form").classList.add("dis-none")
+            document.querySelector("#capture").classList.remove("dis-none")
+        }
+        this.closeCapture.onclick = () => {
+            this.stopCameraStream()
+            document.querySelector("#form").classList.remove("dis-none")
+            document.querySelector("#capture").classList.add("dis-none")
+        }
+        this.captureBtn.onclick = () => {
+            this.capture()
+        }
+        this.elements().Submit.onclick = async () => {
+            if (!this.boolean) return
+            this.submit()
+        }
+
+
+
+
+        window.addEventListener('online', (event) => {
+            console.log("🎉 Koneksi pulih! Browser sekarang ONLINE.");
+            // Di sini Anda bisa melanjutkan ping atau sinkronisasi data
+            this.loaderContent.classList.remove("off")
+            STATIC.loaderRun("CONNECTING")
+            setTimeout(() => {
+                STATIC.loaderStop()
+                //this.pingStart()
+            }, 2500);
+        });
+        window.addEventListener('offline', (event) => {
+            console.log("🚨 Koneksi terputus! Browser sekarang OFFLINE.");
+            // Di sini Anda harus menunda semua operasi ping eksternal
+            STATIC.loaderRun("OFFLINE")
+            this.loaderContent.classList.add("off")
+            //this.pingStop()
+        });
+    }
+    
+    
     async allRequest() {
         STATIC.loaderRun("update_data")
         await this.requestData()
@@ -443,6 +586,7 @@ class absensi {
             STATIC.loaderStop()
         }, 1000)
     }
+    
     async countCamera() {
         try {
             const devices   = await navigator.mediaDevices.enumerateDevices()
@@ -596,129 +740,6 @@ class absensi {
             }
         });
     }
-    eventListener(){
-        document.querySelector("#to-absen").onclick = () => {
-            document.querySelector("#home").classList.add("dis-none")
-            document.querySelector("#list-data").classList.add("dis-none")
-            document.querySelector("#main").classList.remove("dis-none")
-        }
-        document.querySelector("#to-data").onclick = () => {
-            this.setDataPengawas()
-            document.querySelector("#home").classList.add("dis-none")
-            document.querySelector("#list-data").classList.remove("dis-none")
-            document.querySelector("#main").classList.add("dis-none")
-        }
-        document.querySelectorAll(".to-home").forEach(toHome => {
-            toHome.onclick = () => {
-                document.querySelector("#home").classList.remove("dis-none")
-                document.querySelector("#list-data").classList.add("dis-none")
-                document.querySelector("#main").classList.add("dis-none")
-            }
-        })
-        document.querySelector("#to-update").onclick = () => this.allRequest()
-        this.getCoord.onclick = () => {
-            console.log("clicked")
-            if (this.coordProscess) return
-            this.coordLoader.classList.remove("dis-none")
-            this.elements().Koordinat.placeholder = "Mendeteksi lokasi..."
-            this.coordProscess = true
-            this.autoDetectLocation()
-            setTimeout(() => {
-                this.coordLoader.classList.add("dis-none")
-                this.coordProscess = false
-            }, 2000)
-        }
-        this.elements().Tipe.forEach(radio => {
-
-            // Pilih Tipe. Taman atau Berem
-            radio.addEventListener("change", async () => {
-                const data = await this.readData()
-                const tipe = document.querySelector(`input[name="tipe"]:checked`).value.toUpperCase()
-
-                let pengawasHTML = `<option value="" disabled selected>-- pilih pengawas --</option>`
-                // looping data pengawas
-                data.pengawas.forEach(man => { 
-                    const TIPE = man.TIPE.toUpperCase();
-                    TIPE.indexOf(tipe) >= 0 ? pengawasHTML += `<option value="${man.NAMA}">${man.NAMA}</option>` : ''
-                })
-
-                this.elements().Pengawas.disabled = false
-                this.elements().Pengawas.innerHTML = pengawasHTML
-                this.elements().Buruh.disabled = true
-                this.elements().Buruh.innerHTML = ""
-                this.lokasiBox.innerHTML = "-"
-                
-                // Pilih pengawas. Tentukan lokasi dan buruh
-                this.elements().Pengawas.addEventListener("change", async (e) => {
-                    const pengawas = this.elements().Pengawas.value.toUpperCase()
-
-                    let lokasiHTML = ``
-                    // looping data lokasi
-                    data.lokasi.forEach(place => {
-                        const PENGAWAS = place.PENGAWAS;
-                        PENGAWAS.toUpperCase().indexOf(pengawas) >= 0 ? lokasiHTML += `
-                            <label class="radio-inline">
-                                <input type="radio" name="lokasi" value="${place.NAMA}"> ${place.NAMA}
-                            </label>` : ''
-                    })
-
-                    let buruhHTML = `<option value="" disabled selected>-- pilih buruh --</option>`
-                    // looping data buruh
-                    data.buruh.forEach(man => {
-                        const TIPE      = man.TIPE.toUpperCase()
-                        const PENGAWAS  = man.PENGAWAS.toUpperCase()
-                        PENGAWAS.indexOf(pengawas) >= 0 && TIPE.indexOf(tipe) >= 0 ? buruhHTML += `<option value="${man.NAMA}">${man.NAMA}</option>` : ''
-                    })
-                    
-                    this.elements().Lokasi.innerHTML    = lokasiHTML
-                    this.elements().Buruh.disabled      = false
-                    this.elements().Buruh.innerHTML     = buruhHTML
-                    this.lokasiBox.innerHTML            = lokasiHTML
-
-                })
-            })
-        })
-        this.toCapture.onclick = () => {
-            if (this.elements().Buruh.value == "") return alert("Masukan data diatas terlebih dahulu")
-            this.countCamera()
-            this.setCamera()
-            document.querySelector("#form").classList.add("dis-none")
-            document.querySelector("#capture").classList.remove("dis-none")
-        }
-        this.closeCapture.onclick = () => {
-            this.stopCameraStream()
-            document.querySelector("#form").classList.remove("dis-none")
-            document.querySelector("#capture").classList.add("dis-none")
-        }
-        this.captureBtn.onclick = () => {
-            this.capture()
-        }
-        this.elements().Submit.onclick = async () => {
-            if (!this.boolean) return
-            this.submit()
-        }
-
-
-
-
-        window.addEventListener('online', (event) => {
-            console.log("🎉 Koneksi pulih! Browser sekarang ONLINE.");
-            // Di sini Anda bisa melanjutkan ping atau sinkronisasi data
-            this.loaderContent.classList.remove("off")
-            STATIC.loaderRun("CONNECTING")
-            setTimeout(() => {
-                STATIC.loaderStop()
-                //this.pingStart()
-            }, 2500);
-        });
-        window.addEventListener('offline', (event) => {
-            console.log("🚨 Koneksi terputus! Browser sekarang OFFLINE.");
-            // Di sini Anda harus menunda semua operasi ping eksternal
-            STATIC.loaderRun("OFFLINE")
-            this.loaderContent.classList.add("off")
-            //this.pingStop()
-        });
-    }
 
     async readData(){
         console.log("read")
@@ -759,7 +780,7 @@ class absensi {
         switch(error.code) {
             case error.PERMISSION_DENIED:
                 pesan = "Akses lokasi ditolak.";
-                this.stopLocationDetection();
+                //this.stopLocationDetection();
                 break;
             case error.TIMEOUT:
                 pesan = "Deteksi lokasi gagal (Timeout). Mencoba lagi...";
