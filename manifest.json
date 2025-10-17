@@ -1,0 +1,9 @@
+{
+    "name"              : "absensi-buruh-v1",
+    "shortname"         : "BENHARD",
+    "description"       : "PWA asbsensi-buruh-v1",
+    "start_url"         : "/index.html",
+    "display"           : "standalone",
+    "background_color"  : "#ffffff",
+    "theme_color"       : "#000000"
+}
