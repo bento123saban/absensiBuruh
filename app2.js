@@ -505,6 +505,7 @@ class absensi {
 
                     let lokasiHTML = ``
                     // looping data lokasi
+                    console.log(data.lokasi)
                     data.lokasi.forEach(place => {
                         const PENGAWAS = place.PENGAWAS;
                         PENGAWAS.toUpperCase().indexOf(pengawas) >= 0 ? lokasiHTML += `
@@ -512,23 +513,32 @@ class absensi {
                                 <input type="radio" name="lokasi" value="${place.NAMA}"> ${place.NAMA}
                             </label>` : ''
                     })
+                    lokasiHTML += `
+                            <label class="radio-inline">
+                                <input type="radio" name="lokasi" id="lokasi-manual" value="lainnya"> Masukan lokasi 
+                            </label>`
 
                     let buruhHTML = `<option value="" disabled selected>-- pilih buruh --</option>`
                     // looping data buruh
                     data.buruh.forEach(man => {
                         const TIPE      = man.TIPE.toUpperCase()
                         const PENGAWAS  = man.PENGAWAS.toUpperCase()
-                        PENGAWAS.indexOf(pengawas) >= 0 && TIPE.indexOf(tipe) >= 0 ? buruhHTML += `<option value="${man.NAMA}">${man.NAMA}</option>` : ''
+                        PENGAWAS.indexOf(pengawas) >= 0 /*&& TIPE.indexOf(tipe) >= 0*/ ? buruhHTML += `<option value="${man.NAMA}">${man.NAMA}</option>` : ''
                     })
                     
                     this.elements().Lokasi.innerHTML    = lokasiHTML
                     this.elements().Buruh.disabled      = false
                     this.elements().Buruh.innerHTML     = buruhHTML
                     this.lokasiBox.innerHTML            = lokasiHTML
-
                 })
             })
         })
+        window.addEventListener('change', async (e) => {
+            if (e.target && e.target.id != "lokasi-manual") {
+
+            }
+        })
+
         this.toCapture.onclick = () => {
             if (this.elements().Buruh.value == "") return alert("Masukan data diatas terlebih dahulu")
             this.countCamera()
