@@ -1,0 +1,161 @@
+
+
+body {
+    background-color: #ddd !important;
+}
+.clr-somegrey {
+    color: #666 !important;
+}
+
+
+
+
+#main {
+    margin: auto;
+}
+#form {
+    max-width: 500px;
+    margin: auto;
+}
+
+.form-group {
+   border: .3px solid rgba(143, 143, 143, .6) !important;
+   border-top: 2px solid rgb(1, 157, 45) !important;
+   margin-bottom: 15px;
+}
+.form-group input, textarea {
+    border: none !important;
+    border-bottom: 1.3px solid rgb(0, 167, 11) !important;
+    border-radius: 0 !important;
+    background-color:  transparent;
+    outline: none !important;
+    color: #003204 !important;
+}
+.form-group input[type="text"] {
+    padding: 10px !important;
+    font-size: 17px !important;
+}
+.ask-label {
+    color: #444;
+    border-bottom:  dotted 1.3px grey;
+    padding-bottom: 3px;
+    font-size: 14px;
+    margin-bottom: 6px !important;
+}
+.radio-inline {
+    display: flex;
+    align-items: flex-start;
+    width: calc(50% - 5px);
+    font-size: 13px;
+    gap: 10px;
+}
+.radio-inline.radio2 {
+    width: clamp(150px, 100%, 250px);
+}
+
+.radio-inline:has(input[type="radio"]:checked), .radio-inline:has(input[type="checkbox"]:checked) {
+    color: rgb(3, 209, 58);
+    font-weight: bold;
+}
+/* Mengatur ulang penampilan bawaan */
+input[type="radio"], input[type="checkbox"] {
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-appearance: none; /* Untuk Chrome/Safari */
+    -moz-appearance: none;    /* Untuk Firefox */
+    appearance: none;
+
+    /* Sekarang Anda bisa menentukan ukuran fisik */
+    width: 8px; 
+    height: 8px;
+    
+    /* Membuat tampilan lingkaran */
+    outline: 2px solid #666 !important;
+    outline-offset: 2px !important;
+    border-radius: 50%;     /* Bentuk lingkaran */
+    border: none !important;
+        background-color: #fff; /* Warna isi saat tidak terpilih */
+        cursor: pointer;        /* Mengubah kursor saat hover */
+    }
+/* Mengatur tampilan titik saat terpilih */
+input[type="radio"]:checked, input[type="checkbox"]:checked {
+    background-color: rgb(1, 216, 66);
+    scale: 1.2;
+    outline-color: rgb(0, 115, 29) !important; /* Warna isi saat terpilih */
+}
+
+input::placeholder, textarea::placeholder {
+    color: rgb(128, 128, 128) !important;
+    font-weight: normal !important;
+    font-size: 14px !important;
+}
+
+#loader-koordinat {
+    backdrop-filter: blur(2px);
+    top: 0;
+    left: 0;
+}
+
+
+
+.photo {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed grey;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+}
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.photo span {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    width: calc(100% - 8px);
+    backdrop-filter: blur(5px);
+    background-color: lightgrey;
+    border-radius: 0 0 3px 3px;
+}
+
+
+.capture-tabs button {
+    width: 50px;
+    aspect-ratio: 1 !important;
+    border-radius: 1000000px !important;
+    font-size: 16px;
+    border: 2px solid white;
+}
+
+#video {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    object-position: center;
+    object-fit: cover;
+}
+#camera-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+#image-photo {
+    position: absolute;
+    object-position: center;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
