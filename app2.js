@@ -321,7 +321,6 @@ class STATIC {
     }
     static toast(msg, type = "info") {
         const toastEl = document.querySelector("#toast");
-        console.log(toastEl)
         if (!toastEl) return console.warn("Toast element not found");
         toastEl.className = `show ${type}`;
         toastEl.innerHTML = msg;
@@ -556,7 +555,7 @@ class absensi {
 
         this.switchBtn.onclick = async () => this.switchCamera()
         this.toCapture.onclick = async () => {
-            navigator.mediaDevices.getUserMedia
+            await requestCameraPermission()
             this.cameraError.classList.add("dis-none")
             try {
                 const count = await this.countCamera()
@@ -609,6 +608,21 @@ class absensi {
 
     
     // camera method
+    async requestCameraPermission() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });  
+            stream.getTracks().forEach(track => track.stop());
+            return {
+                confirm : true,
+                message : "Izin kamera diberikan"
+            }
+        } catch (e) {
+            return {
+                confirm : false,
+                message : "Izin kamera ditolak"
+            }
+        }
+    }
     async countCamera() {
         try {
             const devices   = await navigator.mediaDevices.enumerateDevices()
