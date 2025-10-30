@@ -552,7 +552,7 @@ class absensi {
             this.submit()
         }
 
-
+ 
         this.switchBtn.onclick = async () => this.switchCamera()
         this.toCapture.onclick = async () => {
             await this.requestCameraPermission()
