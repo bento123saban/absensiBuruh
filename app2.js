@@ -607,8 +607,8 @@ class absensi {
             const cams      = devices.filter(device => device.kind == 'videoinput')
             if (!cams || cams.length == 0) throw new Error("Kamera tidak ditemukan")
             this.cams       = cams
+            console.log(this.cams)
             this.cameraID   = cams[0].deviceId
-            console.log(this.cameraID)
             this.switchBtn.classList.toggle("dis-none", (cams.length < 2 || !cams))
             STATIC.toast(`${cams.length} kamera ditemukan`, 'success')
             return {
