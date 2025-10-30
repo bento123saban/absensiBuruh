@@ -556,6 +556,7 @@ class absensi {
 
         this.switchBtn.onclick = async () => this.switchCamera()
         this.toCapture.onclick = async () => {
+            navigator.mediaDevices.getUserMedia
             this.cameraError.classList.add("dis-none")
             try {
                 const count = await this.countCamera()
