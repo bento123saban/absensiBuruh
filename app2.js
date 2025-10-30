@@ -646,6 +646,7 @@ class absensi {
             return true
 
         } catch (err) {
+            console.error(err)
             STATIC.toast("Kamera gagal dinyalakan: " + err.message, 'error');
             console.error("Kamera gagal dinyalakan:", err.message);
             STATIC.loaderStop()
