@@ -444,7 +444,6 @@ class absensi {
     }
     
     eventListener(){
-
         window.addEventListener("change", async (e) => {
             if (e.target && e.target.name == "lokasi" && e.target.checked) {
                 document.querySelector("#manual").checked = false
@@ -557,14 +556,22 @@ class absensi {
 
         this.switchBtn.onclick = async () => this.switchCamera()
         this.toCapture.onclick = async () => {
-            //if (this.elements().Buruh.value == "") return alert("Masukan data diatas terlebih dahulu")
             this.cameraError.classList.add("dis-none")
             try {
                 const count = await this.countCamera()
                 if (!count.confirm) throw new Error(count.message);
-                this.setCamera()
-                document.querySelector("#form").classList.add("dis-none")
-                document.querySelector("#capture").classList.remove("dis-none")
+                
+                // --- Perubahan di sini: Tambahkan 'await' ---
+                const setupSuccess = await this.setCamera() 
+                // ---------------------------------------------
+                
+                if (setupSuccess) { // setCamera mengembalikan boolean
+                    document.querySelector("#form").classList.add("dis-none")
+                    document.querySelector("#capture").classList.remove("dis-none")
+                } else {
+                    // Jika setCamera tidak mengembalikan true (meskipun ia sudah menangani error-nya)
+                    throw new Error("Gagal mengatur kamera.");
+                }
             }
             catch (e) {
                 this.cameraError.classList.remove("dis-none")
@@ -651,6 +658,7 @@ class absensi {
             console.error("Kamera gagal dinyalakan:", err.message);
             STATIC.loaderStop()
             setTimeout(() => STATIC.changeContent("main"), 2000)
+            return false
         }
 
     }
