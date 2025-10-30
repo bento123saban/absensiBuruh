@@ -555,7 +555,7 @@ class absensi {
 
         this.switchBtn.onclick = async () => this.switchCamera()
         this.toCapture.onclick = async () => {
-            await requestCameraPermission()
+            await this.requestCameraPermission()
             this.cameraError.classList.add("dis-none")
             try {
                 const count = await this.countCamera()
