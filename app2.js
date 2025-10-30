@@ -650,6 +650,7 @@ class absensi {
             STATIC.toast("Kamera gagal dinyalakan: " + err.message, 'error');
             console.error("Kamera gagal dinyalakan:", err.message);
             STATIC.loaderStop()
+            setTimeout(() => STATIC.changeContent("main"), 2000)
         }
 
     }
