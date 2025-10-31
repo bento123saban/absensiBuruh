@@ -1011,21 +1011,16 @@ class absensi {
             Object.keys(data).forEach(date => {
                 dataHTML += `
                     <div class="form-group  white p-10 borad-5">
-                        <label class=" dis-block ask-label bolder w-100 fz-18">${date}</label>
-                `
-                Object.keys(data[date]).forEach(lokasi => {
-                    dataHTML += `
-                        <label class=" dis-block ask-label bolder w-100">>> &nbsp;${lokasi}</label>
-                        <ul class="m-0 fz-14">`
-                    //return console.log(data[date][lokasi])
-                    data[date][lokasi].forEach(buruh => {
+                        <label class=" dis-block ask-label bolder w-100 fz-18">${date}</label>`
+                        
+                Object.keys(data[date]).forEach((lokasi, i) => {
                         dataHTML += `
-                            <li>${buruh.buruh} - ${buruh.timestamp}</li>
-                        `
-                    })
+                        <label class=" dis-block ask-label bolder w-100 mt-2">&nbsp; &nbsp; ${lokasi}</label>
+                        <ul class="m-0 fz-14">`
+                            data[date][lokasi].forEach(buruh => dataHTML += `<li>${buruh.buruh} - ${buruh.timestamp}</li>`)
+                        dataHTML += `</ul>`
                 })
                 dataHTML += `
-                        </ul>
                     </div>
                 `
             })
