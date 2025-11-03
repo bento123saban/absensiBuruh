@@ -1,11 +1,11 @@
 {
   "name": "Absensi Buruh Tata Lingkungan",
-  "short_name": "Absensi",
+  "short_name": "Absensi Buruh",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
-  "description": "Aplikasi Absensi Buruh Tata Lingkungan",
+  "description": "Aplikasi Absensi Buruh Taman dan Berem Bidang Tata Lingkungan DLHP Kota Ambon",
   "icons": [
     {
       "src": "img/fav-icon.png",
