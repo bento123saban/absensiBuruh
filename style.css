@@ -28,7 +28,7 @@ body {
 }
 
 #tree-bg {
-    height: 250px;
+    height: 270px;
     margin: 0 auto;
     z-index: 10;
     transform: translateY(10px);
@@ -52,7 +52,7 @@ body {
     width: 100%;
     max-width: 350px;
     height: fit-content;
-    transform: translateY(32px);
+    transform: translateY(40px);
 }
 
 #logos {
