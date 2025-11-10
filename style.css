@@ -9,13 +9,11 @@ body {
 
 
 .main-bg {
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     z-index: -10;
-    filter: blur(60px) brightness(90%);
 }
 #main-bg {
     width: 100%;
@@ -24,24 +22,76 @@ body {
     object-position: center;
     z-index: -2;
 }
+#tree-bg {
+    position: absolute;
+    top: calc(100%);
+    left: 50%;
+    transform: translate(-50%, calc(-100% + 60px));
+    width: 100%;
+    max-width: 800px;
+}
 
+.glass {
+    backdrop-filter: blur(5px);
+    background: linear-gradient(45deg, white, #ffffff10);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    width: 100%;
+    max-width: 350px;
+    height: fit-content;
+    margin: auto;
+
+}
+
+#logos {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 10px;
+}
 #front-logo {
-    transform: translateY(70px);
+    width: 40px;
+}
+#ambon-logo {
+    width: 20px;
+}
+
+#h2-1 {
+    font-size: 27.5px;
+}
+#bidang-text {
+    font-size: 16.5px;
 }
 
 
+#login-google {
+    -mix-blend-mode: screen !important;
+}
+.nsm7Bb-HzV7m-LgbsSe-MJoBVe {
+    -mix-blend-mode: screen !important;
+}
+
 #main {
     margin: auto;
+    backdrop-filter: blur(2px);
+    height: fit-content;
 }
 #form {
     max-width: 500px;
     margin: auto;
 }
 
+#to-data {
+}
+
 .form-group {
-   border: .3px solid rgba(143, 143, 143, .6) !important;
-   border-top: 2px solid rgb(1, 157, 45) !important;
+   border: 1.3px solid rgba(143, 143, 143, .6) !important;
+   border-top: 3px solid rgb(58, 120, 76) !important;
    margin-bottom: 15px;
+   background: linear-gradient(45deg, white, transparent);
+   backdrop-filter: blur(10px);
 }
 .form-group input, textarea {
     border: none !important;
@@ -54,6 +104,10 @@ body {
 .form-group input[type="text"] {
     padding: 10px !important;
     font-size: 17px !important;
+    background-color: transparent !important;
+}
+select {
+    background: transparent;
 }
 .ask-label {
     color: #444;
@@ -149,15 +203,22 @@ input::placeholder, textarea::placeholder {
     aspect-ratio: 1 !important;
     border-radius: 1000000px !important;
     font-size: 16px;
-    border: 2px solid white;
+    border: 2px solid white !important;
 }
+.capture-tabs button:nth-child(2) {scale: 1.2;}
 
 #video {
     position: absolute;
-    height: 100%;
+    top: 0;
     width: 100%;
+    height: 100%;
     object-position: center;
     object-fit: cover;
+}
+#video-box {
+    border: 2px solid white;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
 #camera-error {
     position: absolute;
@@ -178,4 +239,110 @@ input::placeholder, textarea::placeholder {
     object-fit: cover;
     width: 100%;
     height: 100%;
+}
+
+#sppl {
+    background-color: #e0f1ff;
+    height: fit-content;
+}
+
+.sppl-group {
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    border: 1.3px solid rgba(0,0,0,.3);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,.1);
+    margin-bottom: 10px;
+}
+.sppl-group p {
+    font-size: 12px;
+    text-align: justify;
+}
+
+
+.pop-up {
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(1px);
+    z-index: 10000;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+}
+
+.fetch-group {
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    margin-bottom: 10px;
+    border: 2px solid grey;
+}
+.fetch-button span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+
+#verify-data {
+    width: 100%;
+    max-width: 350px;
+    margin: auto;
+    padding: 20px;
+}
+#verify-data i {
+    width: 85px;
+    height: 85px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    font-size: 40px;
+    margin: auto;
+}   
+
+#verify-data h4 {
+    padding: 15px 0 0;
+    width: calc(100%);
+    border-radius: 10px;
+    font-size: 22px;
+    text-align: center;
+    margin: 0;
+}
+
+#verify-data h4.denied {
+    color: red;
+}
+#verify-data h4.granted {
+    color: rgb(17, 122, 17);
+}
+
+#verify-btn span {
+    padding: 7px;
+    font-weight: bolder;
+    border-radius: 5px;
+
+}
+
+i.red {
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+i.slash::after {
+    content: "";
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(90deg, red, darkred);
+    border-top: 4px solid white;
+    rotate: -45deg;
+}
+
+
+i.green {
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    outline: 3px solid limegreen;
 }

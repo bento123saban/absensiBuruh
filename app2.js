@@ -296,15 +296,15 @@ class STATIC {
         return {
             show : (callback = "") => {
                 STATIC.changeContent("verify")
-                document.querySelector("#verify h4").innerHTML        = data.head
-                document.querySelector("#verify span").innerHTML      = data.text
+                document.querySelector("#verify h4").innerHTML      = data.head
+                document.querySelector("#verify span").innerHTML    = data.text
                 if (data.status == 'denied') {
-                    document.querySelector("#verify i").className       = "fas fa-x fz-30 grid-center m-auto clr-red"
-                    document.querySelector("#verify-data").className    = "align-center clr-red"
+                    document.querySelector("#verify i").className   = (data.icon) ? data.icon + " red" : "fas fa-triangle-exclamation red"
+                    document.querySelector("#verify h4").className  = "denied"
                 }
                 else {
-                    document.querySelector("#verify i").className       = "fas fa-check fz-30 grid-center m-auto clr-green"
-                    document.querySelector("#verify-data").className    = "align-center clr-green"
+                    document.querySelector("#verify i").className   = (data.icon) ? data.icon + " green"  : "fas fa-check green"
+                    document.querySelector("#verify h4").className  = "granted"
                 }
                 if(typeof callback === "function") callback()
             },
@@ -555,7 +555,13 @@ class absensi {
  
         this.switchBtn.onclick = async () => this.switchCamera()
         this.toCapture.onclick = async () => {
-            await this.requestCameraPermission()
+            const camPermision = await this.requestCameraPermission()
+            if (!camPermision.confirm) return STATIC.verifyController({
+                status  : "denied",
+                head    : "Akses kamera ditolak",
+                text    : "Izinkan akses kamera di pengaturan browser anda <br> (Google Chrome)",
+                icon    : "fas fa-camera slash"
+            }).show(() => this.verifyBtn("reload"))
             this.cameraError.classList.add("dis-none")
             try {
                 const count = await this.countCamera()
@@ -604,6 +610,7 @@ class absensi {
             this.loaderContent.classList.add("off")
             //this.pingStop()
         });
+
     }
 
     
@@ -672,7 +679,12 @@ class absensi {
             STATIC.toast("Kamera gagal dinyalakan: " + err.message, 'error');
             console.error("Kamera gagal dinyalakan:", err.message);
             STATIC.loaderStop()
-            setTimeout(() => STATIC.changeContent("main"), 2000)
+            //setTimeout(() => STATIC.changeContent("main"), 2000)
+            STATIC.verifyController({
+                status  : "denied",
+                head    :  "Kamera gagal dinyalakan",
+                text    : (err.message == "") ? "Agar kamera dapat digunakan. Berikan akses ke kamera di setelan browser di setelan situs" : err.message
+            }).show(() => this.verifyBtn("reload"))
             return false
         }
 
@@ -783,6 +795,13 @@ class absensi {
             const error = (err) => this.showError(err);
             navigator.geolocation.getCurrentPosition(success, error, options);
         } else {
+            /*
+            STATIC.verifyController({
+                status : "denied",
+                head   : "Geolocation Tidak Didukung",
+                text   : "Perangkat atau browser Anda tidak mendukung fitur geolokasi. Silakan masukkan lokasi secara manual."
+            }).show(() => this.verifyBtn("reload"))
+            */
             latLongInput.placeholder = "Geolocation tidak didukung.";
         }
     }
@@ -792,6 +811,7 @@ class absensi {
         this.elements().Koordinat.value = `${lat} ${lon}`;
         this.elements().Koordinat.placeholder = "Lokasi terdeteksi";
         this.KoordinatData(lat, lon)
+        //this.verifyController().clear()
     }
     async KoordinatData(lat, lon) {
         const options   = {method: 'GET', headers: {accept: 'application/json'}};
@@ -809,15 +829,20 @@ class absensi {
         switch(error.code) {
             case error.PERMISSION_DENIED:
                 pesan = "Akses lokasi ditolak.";
-                //this.stopLocationDetection();
                 break;
             case error.TIMEOUT:
-                pesan = "Deteksi lokasi gagal (Timeout). Mencoba lagi...";
+                pesan = "Deteksi lokasi gagal (Timeout). Coba lagi...";
                 break;
             default:
-                pesan = "Gagal mendeteksi lokasi. Mencoba lagi...";
+                pesan = "Gagal mendeteksi lokasi. Coba lagi...";
         }
+        this.locationReject({
+            code    : error.code,
+            pesan   : pesan
+        })
+        STATIC.toast(pesan, "error")
         if (!this.elements().Koordinat.value) {
+            this.elements().Koordinat.value = ""
             this.elements().Koordinat.placeholder = pesan;
         }
     }
@@ -901,10 +926,25 @@ class absensi {
             return JSON.stringify({ error: `Error saat konversi XML: ${e.message}` }, null, 4);
         }
     }
+    locationReject (error) {
+        document.querySelector("#koordinat-text").textContent = ""
+        if (error.code !== 1) return 
+        STATIC.verifyController({
+            status : "denied",
+            head   : error.pesan,
+            text   : "Nyalakan lokasi dan izinkan akses lokasi pada browser dan perangkat Anda kemudian segarkan halaman ini.",
+            icon   : "fas fa-location-dot slash"
+        }).show(()=> this.verifyBtn("reload"))
+    }
 
 
     // main data method
     async readData(){
+        navigator.permissions.query({name: 'geolocation'}).then(function(result) {
+            if (result.state === 'denied') this.locationReject({code : 1, pesan : "Akses lokasi ditolak."})
+            else if (result.state === 'prompt') this.getCoord.click()
+        });
+
         const data = await JSON.parse(localStorage.getItem("dataBuruh"))
         if (!data || data.length == 0 || data == null) {
             this.requestData()
@@ -931,14 +971,16 @@ class absensi {
                 head    : post.error.code,
                 text    : post.error.message,
                 retry   : true,
-                local   : true
+                local   : true,
+                icon    : post.error.code.toUpperCase() == "OFFLINE" ? "fas fa-wifi slash" : false
             })
             else if (!post.data.confirm) throw ({
                 status  : "denied",
                 head    : post.data.status,
                 text    : post.data.msg,
                 retry   : false,
-                local   : true
+                local   : true,
+                icon    : !post.data.icon ? false : post.data.icon                                       
             })
             else if (post.data.confirm) {
                 this.requestGood = true
@@ -948,7 +990,7 @@ class absensi {
             }
         }
         catch (error) {
-            if (JSON.localStorage.getItem("dataBuruh")) this.requestGood = good
+            if (JSON.parse(localStorage.getItem("dataBuruh"))) this.requestGood = ""
             else this.requestGood = false
             STATIC.loaderStop()
             STATIC.verifyController(error).show()

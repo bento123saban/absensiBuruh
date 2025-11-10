@@ -18,12 +18,34 @@
     font-family: "Barlx";
     src: url("/font/Barlow-Regular.ttf");
 }
+@font-face {
+    font-family: "open-sans";
+    src: url("./font/open-sans/OpenSans-Light.ttf");
+}
+@font-face {
+    font-family: "eb-garamond";
+    src: url("./font/EB-garamond/EBGaramond-Regular.ttf");
+}
+@font-face {
+    font-family: "quicksand";
+    src: url("./font/Quicksand/Quicksand-Light.ttf");
+}
+@font-face {
+    font-family: "montserrat";
+    src: url("./font/Montserrat/Montserrat-Light.ttf");
+}
+@font-face {
+    font-family: "nunito";
+    src: url("./font/Nunito/Nunito-Light.ttf");
+}
 
 * {
     box-sizing: border-box;
-    font-family: 'Barlx', sans-serif;
+    font-family: 'nunito', sans-serif;
     scroll-behavior: smooth;
 }
+
+
 html {
     scrollbar-width: none;
     -ms-overflow-style: none;  /* IE and Edge */

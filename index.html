@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABSEN BURUH</title>
     <meta name="google" content="notranslate">
-    <link rel="icon" type="image/png" href="img/fav-icon.png">
+    <link rel="icon" type="image/png" href="img/favicon.ico">
     <link rel="stylesheet" href="bendhard16.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./font/fontawsome/css/all.css">
@@ -15,16 +15,68 @@
 </head>
 <body translate="no">
 
-    <div class=" vw-100 vh-100 clr-somegrey content dis-none" id="main">
+    <div class="main-bg relative">
+        <img src="img\hp-bg.png" alt="" id="main-bg">
+    </div>
+
+    <div class="grid-center content vh-100 vw-100 relative dis-none" id="home">
+        
+        <img src="./img/tree-bg.png" alt="" id="tree-bg" class="">
+        <div class="w-100 p-30">
+            <div class="flex-beetwen w-100 align-end gap-10" id="logos">
+                <div class="flex-start gap-10">
+                    <img src="img\logo-ambon.png" class="dis-block" alt="" id="ambon-logo">
+                    <img src="img\logo-dlhp.png" class="dis-block" alt="" id="front-logo">
+                </div>
+                <span class="dis-block mt-1 clr-somegrey">DLHP Kota Ambon</span>
+            </div>
+            <div class="glass">
+                <h2 class="align-center clr-somegrey m-0 p-0" id="h2-1">ABSENSI BURUH</h2>
+                <h2 class="align-center clr-somegrey m-0 p-0 mb-1">TAMAN dan BEREM</h2>
+                <span class="clr-somegrey align-center dis-block" id="bidang-text">Bidang Tata Lingkungan</span>
+                <div class="hr grey"></div>
+                <div id="login-google" class="basic-glass">
+                    <span class="dis-block align-center clr-somegrey fz-8 mt-2 mb-2 w-100" id="home-text">
+                        Untuk melakukan ABSEN,<br>
+                        silahkan login dengan akun google anda
+                    </span>
+                    <div class="content grid-center" id="login-google">
+                        <div>
+                            <div class="g_id_signin"
+                                data-type="standard"
+                                data-shape="pill"
+                                data-text="continue_with"
+                                data-theme="filled_blue"
+                                data-size="large">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="g_id_onload"
+                        data-client_id="795274958306-a5gs7djtrc92vhmntvpttekf75umcbm4.apps.googleusercontent.com"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        data-callback="loginGoogle"
+                        data-nonce=""
+                        data-auto_prompt="false">
+                    </div>
+                </div>
+                <span class="dis-block align-center fz-10 mt-2">atau</span>
+                
+                <button class="uppercase transparent bolder pointer clr-somegrey align-center br-none mt-2 fz-18 w-100 " id="to-data">Cek Data</button>
+            </div>
+        </div>
+    </div>
+
+    <div class=" vw-100 clr-somegrey content " id="main">
 
         <div id="form" class="p-20">
             <div class="flex-start gap-10 mb-2">
-                <h2 class="align-center green p-20 borad-5 m-0 w-100 gap-5">Absensi Buruh</h2>
-                <h2 class="align-center green p-20 borad-5 m-0 pointer" id="update-data"><i class="fas fa-sync"></i></h2>
+                <h2 class="align-center green p-10 borad-5 m-0 w-100 gap-5">Absensi Buruh</h2>
+                <h2 class="align-center green p-10 borad-5 m-0 pointer" id="update-data"><i class="fas fa-sync"></i></h2>
             </div>
 
             <!-- Koordinat -->
-            <div class="form-group white p-10 borad-5 relative hidden">
+            <div class="form-group p-10 borad-5 relative hidden">
                 <div class="loader-content absolute-top w-100 h-100 grid-center dis-none" id="loader-koordinat">
                     <div class="loader" id="the-loader"></div>
                 </div>
@@ -40,9 +92,10 @@
                 <p class="m-0 p-0 fz-10 mt-1" id="koordinat-text"></p>
             </div>
 
+
             
             <!-- Tipe -->
-            <div class="form-group white p-10 borad-5">
+            <div class="form-group p-10 borad-5">
                 <div class="flex-beetwen ask-label align-items-center">
                     <label class=" dis-block  bolder">Tipe</label>
                 </div>
@@ -57,25 +110,25 @@
             </div>
 
             <!-- Pengawas -->
-            <div class="form-group white p-10 borad-5">
+            <div class="form-group p-10 borad-5">
                 <label class=" dis-block ask-label bolder w-100">Pengawas</label>
                 <div class="flex-beetwen w-100 gap-10">
-                    <select name="" class="w-100 white br-none p-5" disabled id="pengawas">
+                    <select name="" class="w-100 br-none p-5" disabled id="pengawas">
                     </select>
                 </div>
             </div>
             
             <!-- Buruh -->
-            <div class="form-group white p-10 borad-5">
+            <div class="form-group p-10 borad-5">
                 <label class=" dis-block ask-label bolder w-100">Buruh</label>
                 <div class="flex-beetwen w-100 gap-10">
-                    <select name="" class="w-100 white br-none p-5" id="buruh" disabled>
+                    <select name="" class="w-100 br-none p-5" id="buruh" disabled>
                     </select>
                 </div>
             </div>
             
             <!-- Lokasi Jalan -->
-            <div class="form-group white p-10 borad-5">
+            <div class="form-group p-10 borad-5">
                 <div class="flex-beetwen ask-label align-items-center">
                     <label class=" dis-block  bolder">Lokasi :</label>
                 </div>
@@ -86,22 +139,23 @@
                 </div>
             </div>
 
+            
+            <!-- Keterangan -->
+            <div class="form-group p-10 borad-5">
+                <label class=" dis-block ask-label bolder w-100">Keterangan (opsional)</label>
+                <div class="flex-beetwen mt-1 w-100 gap-10">
+                    <textarea id="keterangan" class="w-100 p-5 borad-3" placeholder="Jawaban Anda" rows="4"></textarea>
+                </div>
+            </div>
+
             <!-- Photo -->
-            <div class="form-group white p-10 borad-5" id="photo-box-content">
+            <div class="form-group p-10 borad-5" id="photo-box-content">
                 <label class=" dis-block ask-label bolder w-100">Photo</label>
                 <div class="flex-beetwen flex-column mt-1 w-100 gap-10 relative" id="photo-area">
                     <div class="photo hidden relative hidden">
                         <img src="" alt="" class="" id="image-photo">
-                        <span class="align-center p-5" id="to-capture"><i class="fas fa-camera clr-white"></i></span>
+                        <span class="align-center p-5 white" id="to-capture"><i class="fas fa-camera clr-somegrey"></i></span>
                     </div>
-                </div>
-            </div>
-
-            <!-- Keterangan -->
-            <div class="form-group white p-10 borad-5">
-                <label class=" dis-block ask-label bolder w-100">Keterangan (opsional)</label>
-                <div class="flex-beetwen mt-1 w-100 gap-10">
-                    <textarea id="keterangan" class="w-100 p-5 borad-3" placeholder="Jawaban Anda" rows="4"></textarea>
                 </div>
             </div>
 
@@ -110,65 +164,28 @@
             
         </div>
 
-        <div id="capture" class="dis-none vw-100 vh-100">
-            <video id="video" class="borad-5 absolute-bottom vw-100 vh-100" autoplay></video>
-            <div class="w-100 flex-center gap-20 absolute-bottom mb-2 capture-tabs p-5">
-                <button class="p-10 fz-17 basic-glass" id="switch-btn"><i class="fas fa-camera-rotate"></i></button>
-                <button class="p-10 fz-17 basic-glass" id="capture-btn"><i class="fas fa-image"></i></button>
-                <button class="p-10 fz-17 basic-glass" id="close-btn"><i class="fas fa-x"></i></button>
-            </div>
-            <span id="camera-error" class="dis-none"></span>
-        </div>
-    </div>
-
-    <div id="home" class="grid-center content vh-100 vw-100 relative" >
-        <div class="main-bg dis-none">
-            <img src="img\3.png" alt="" id="main-bg">
-        </div>
-        <div class="w-100 grid-center">
-            <img src="img\logo-2.png" style="width: 300px !important;" class="dis-block m-0" alt="" id="front-logo">
-            <h2 class="align-center uppercase clr-somegrey m-0 p-0">Absensi Buruh <br> Tata Lingkungan</h2>
-            <div class="hr grey"></div>
-            <div id="login-google">
-                <span class="dis-block m-auto align-center clr-somegrey fz-12 bolder mt-2 mb-1 w-100" id="home-text">
-                    Untuk melakukan ABSEN,<br>
-                    silahkan login dengan akun google anda
-                </span>
-                <div class="content grid-center" id="login-google">
-                    <div>
-                        <div class="g_id_signin"
-                            data-type="standard"
-                            data-shape="pill"
-                            data-text="continue_with"
-                            data-theme="filled_blue"
-                            data-size="large">
-                        </div>
-                    </div>
+        <div id="capture" class="vw-100 vh-100  dis-none">
+            <div class="relative vh-100 vw-100 hidden flex-start flex-column p-20 gap-10">
+                <div id="video-box" class="relative h-100 w-100 borad-10 hidden">
+                    <video id="video" class="" autoplay></video>
                 </div>
-                <div id="g_id_onload"
-                    data-client_id="795274958306-a5gs7djtrc92vhmntvpttekf75umcbm4.apps.googleusercontent.com"
-                    data-context="signin"
-                    data-ux_mode="popup"
-                    data-callback="loginGoogle"
-                    data-nonce=""
-                    data-auto_prompt="false">
+                <div class="w-100 flex-center gap-20 capture-tabs p-5">
+                    <button class="p-10 blue br-white" id="switch-btn"><i class="fas fa-camera-rotate"></i></button>
+                    <button class="p-10 green br-white" id="capture-btn"><i class="fas fa-image"></i></button>
+                    <button class="p-10 red br-white" id="close-btn"><i class="fas fa-x"></i></button>
                 </div>
-            </div>
-            <br>
-            <br>
-            <div class="home-buttons w-100 flex-center gap-20 flex-wrap">
-                <button class="transparent uppercase bolder br-none pointer clr-somegrey" id="to-data">Cek Data</button>
+                <span id="camera-error" class="dis-none"></span>
             </div>
         </div>
     </div>
 
-    <div id="list-data" class="content vh-100 vw-100 p-20 dis-none">
+    <div class="content vh-100 vw-100 p-20 dis-none" id="list-data" >
         <h3 class="m-0 mb-2 align-center p-10 borad-5 green uppercase to-home">Data Absensi - 3 Hari</h3>
         <!-- Pengawas -->
-        <div class="form-group white p-10 borad-5 w-100">
+        <div class="form-group p-10 borad-5 w-100">
             <label class=" dis-block ask-label bolder w-100">Pengawas</label>
             <div class="flex-beetwen w-100 gap-10">
-                <select name="" class="w-100 white br-none p-5" id="pengawas-data">
+                <select name="" class="w-100 br-none p-5" id="pengawas-data">
                 </select>
             </div>
         </div>
@@ -187,14 +204,16 @@
         </div>
     </div>
 
-    <div class="content grid-center p-20 vh-100 vw-100 dis-none" id="verify">
+    <div class="content grid-center p-20 vh-100 vw-100 dis-none relative" id="verify">
         <div id="verify-data" class="align-center">
-            <i class="fas fa-check fz-30 grid-center m-auto" ></i>
-            <h4 class="p-5 m-0 uppercase align-center w-100">Granted</h4>
-            <span class="dis-block align-center mt-1 bolder fz-12" id="verify-text">...</span>
+            <div class="clr-white bolder">
+                <i class="fas fa-check green"></i>
+                <h4 class="denied">Granted</h4>
+            </div>
+            <span class="dis-block align-center mt-1 bolder fz-12 align-center clr-somegrey" id="verify-text">...</span>
         </div>
         <div id="verify-btn" class="absolute-bottom w-100 flex-center gap-20 p-10 fz-16 clr-somegrey mb-4 uppercase">
-            <span class="dis-none pointer" id="verify-reload" onclick="window.location.reload()">reload</span>
+            <span class="dis-none pointer" id="verify-reload" onclick="window.location.reload()"><i class="fas fa-home"></i></span>
             <span class="dis-none pointer" id="verify-retry">COBA_LAGI</span>
             <span class="dis-none pointer" id="verify-absen">Absen</span>
             <span class="dis-none pointer" id="verify-cek_data">Cek Data</span>
