@@ -14,6 +14,7 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
+    height: 100%;
 }
 .main-bg {
     position: fixed;
