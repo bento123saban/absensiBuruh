@@ -14,18 +14,9 @@ body {
     width: 100vw;
     height: 100vh;
     z-index: -10;
-    /* 1. Atur URL gambar background */
     background-image: url('./img/hp-bg.png');
-    
-    /* 2. Properti pelengkap (Sangat Penting!) */
-    
-    /* Agar gambar tidak berulang */
     background-repeat: no-repeat; 
-    
-    /* Agar gambar menutupi seluruh area body */
-    background-size: cover; 
-    
-    /* Agar gambar tetap di tempatnya saat halaman di-scroll */
+    background-size: cover;
     background-attachment: fixed;
 }
 #main-bg {
