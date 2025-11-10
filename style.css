@@ -14,7 +14,7 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
-    height: calc(100vh - 20px);
+    height: calc(100vh - 40px);
 }
 .main-bg {
     position: fixed;
