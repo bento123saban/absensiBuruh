@@ -29,7 +29,6 @@ body {
 }
 
 .glass {
-    backdrop-filter: blur(5px);
     background: linear-gradient(45deg, white, #ffffff10);
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,.1);
