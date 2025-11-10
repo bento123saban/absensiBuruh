@@ -88,7 +88,6 @@ body {
    border-top: 3px solid rgb(58, 120, 76) !important;
    margin-bottom: 15px;
    background: linear-gradient(45deg, white, transparent);
-   backdrop-filter: blur(10px);
 }
 .form-group input, textarea {
     border: none !important;
