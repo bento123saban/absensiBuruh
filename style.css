@@ -15,7 +15,7 @@ body {
     justify-content: flex-end;
     align-items: center;
     height: calc(100vh);
-    
+
 }
 .main-bg {
     position: fixed;
@@ -34,6 +34,15 @@ body {
     margin: 0 auto;
     z-index: 10;
     transform: translateY(10px);
+}
+
+#glass-leaf {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: .2;
+    filter: brightness(100%);
 }
 
 #home-content {
@@ -55,6 +64,7 @@ body {
     max-width: 350px;
     height: fit-content;
     transform: translateY(40px);
+    overflow: hidden;
 }
 
 #logos {
