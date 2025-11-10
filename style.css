@@ -8,6 +8,13 @@ body {
 }
 
 
+
+#home {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
 .main-bg {
     position: fixed;
     top: 0;
@@ -19,14 +26,21 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
+
 #tree-bg {
-    position: absolute;
-    top: calc(100%);
-    left: 50%;
-    transform: translate(-50%, calc(-100% + 60px));
-    width: 100%;
-    max-width: 800px;
+    height: 250px;
+    margin: 0 auto;
+    z-index: 10;
 }
+
+#home-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0 !important;
+}
+
 
 .glass {
     background: linear-gradient(45deg, white, #ffffff10);
@@ -37,8 +51,7 @@ body {
     width: 100%;
     max-width: 350px;
     height: fit-content;
-    margin: auto;
-
+    transform: translateY(27px);
 }
 
 #logos {
