@@ -474,7 +474,7 @@ class absensi {
                     document.querySelector("#other-form").classList.remove("dis-none")
                 }
                 else {
-                    document.querySelectorAll("#other-form").forEach(form => form.classList.toggle(true, "dis-none"))
+                    document.querySelectorAll("#other-form").forEach(form => form.classList.add("dis-none"))
                     document.querySelectorAll("[data-hide='hide'").forEach(hide => hide.classList.contains("dis-none") ? hide.classList.remove("dis-none") : "")
                 }
             })
@@ -1274,6 +1274,8 @@ class absensi {
         STATIC.changeContent("main")
         this.elements().Koordinat.placeholder = "Klik tombol untuk mendeteksi lokasi"
         document.querySelector("#koordinat-text").textContent = ""
+        document.querySelector("#other-file").value = ""
+        document.querySelector("#hadir-button").click()
     }
 }
 
