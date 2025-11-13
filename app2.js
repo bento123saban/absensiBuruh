@@ -1161,7 +1161,7 @@ class absensi {
                 Status      : STATUS
             }
             Object.keys(this.collectData).forEach(data => {
-                if (data == "Keterangan" && STATUS !== "Hadir") return
+                if (data == "Keterangan" && STATUS == "Hadir") return
                 if (STATUS !== "Hadir" && data == "File") return
                 if (data == "File" && !this.collectData[data].nama ) return param = false
                 if (this.collectData[data] == "" || !this.collectData[data]) return param = false
