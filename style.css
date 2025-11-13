@@ -8,6 +8,11 @@ body {
 }
 
 
+.content {
+    min-height: 100vh;
+    height: 100%;
+}
+
 
 #home {
     display: flex;
@@ -143,6 +148,9 @@ select {
     width: calc(50% - 5px);
     font-size: 13px;
     gap: 10px;
+}
+#status .radio-inline {
+    width: calc(33.3% - 9px);
 }
 .radio-inline.radio2 {
     width: clamp(150px, 100%, 250px);
@@ -366,4 +374,8 @@ i.green {
     place-items: center;
     overflow: hidden;
     outline: 3px solid limegreen;
+}
+
+#other-file {
+    border: none !important;
 }

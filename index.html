@@ -31,7 +31,7 @@
 
         <div class="h-100 hidden" id="home-content">
             <div class="glass">
-                <img src="./img/glass_leaf-removebg-preview.png" alt="" id="glass-leaf">
+                <img src="./img/glass_leaf-removebg-preview.png" class="dis-none" alt="" id="glass-leaf">
                 <h2 class="align-center clr-somegrey m-0 p-0" id="h2-1">ABSENSI BURUH</h2>
                 <h2 class="align-center clr-somegrey m-0 p-0 mb-1">TAMAN dan BEREM</h2>
                 <span class="clr-somegrey align-center dis-block" id="bidang-text">Bidang Tata Lingkungan</span>
@@ -69,99 +69,125 @@
         </div>
     </div>
 
-    <div class=" vw-100 clr-somegrey content dis-none" id="main">
-
+    <div class="vh-100 clr-somegrey dis-none" id="main">
         <div id="form" class="p-20">
             <div class="flex-start gap-10 mb-2">
                 <h2 class="align-center green p-10 borad-5 m-0 w-100 gap-5">Absensi Buruh</h2>
                 <h2 class="align-center green p-10 borad-5 m-0 pointer" id="update-data"><i class="fas fa-sync"></i></h2>
             </div>
 
-            <!-- Koordinat -->
-            <div class="form-group p-10 borad-5 relative hidden">
-                <div class="loader-content absolute-top w-100 h-100 grid-center dis-none" id="loader-koordinat">
-                    <div class="loader" id="the-loader"></div>
-                </div>
-                <div class="flex-beetwen align-items-center ask-label">
-                    <label class=" dis-block bolder w-100">Koordinat :</label>
-                    <div class="green p-5 borad-3 grid-center pointer" id="getCoord" title="Deteksi Lokasi">
-                        <i class="fas fa-location fz-16 pointer"></i>
-                    </div>
-                </div>
-                <div class="flex-beetwen w-100 gap-10">
-                    <input type="text" id="koordinat" readonly class="w-100 p-5 borad-3" placeholder="Tekan tombol di samping kanan atas untuk mendeteksi lokasi">
-                </div>
-                <p class="m-0 p-0 fz-10 mt-1" id="koordinat-text"></p>
-            </div>
-
-
-            
-            <!-- Tipe -->
             <div class="form-group p-10 borad-5">
                 <div class="flex-beetwen ask-label align-items-center">
-                    <label class=" dis-block  bolder">Tipe</label>
+                    <label class=" dis-block  bolder">Status :</label>
                 </div>
-                <div class="radio-list flex-start gap-10 flex-wrap  clr-somegrey pt-1">
+                <div class="radio-list flex-start gap-10 flex-wrap  clr-somegrey pt-1" id="status">
                     <label class="radio-inline pointer">
-                        <input type="radio" name="tipe" value="Taman"> Taman
+                        <input type="radio" name="status" value="Hadir" checked> Hadir
                     </label>
                     <label class="radio-inline pointer">
-                        <input type="radio" name="tipe" value="Berem"> Berem
+                        <input type="radio" name="status" value="Izin"> Izin
+                    </label>
+                    <label class="radio-inline pointer">
+                        <input type="radio" name="status" value="Sakit"> Sakit
                     </label>
                 </div>
             </div>
 
-            <!-- Pengawas -->
-            <div class="form-group p-10 borad-5">
-                <label class=" dis-block ask-label bolder w-100">Pengawas</label>
-                <div class="flex-beetwen w-100 gap-10">
-                    <select name="" class="w-100 br-none p-5" disabled id="pengawas">
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Buruh -->
-            <div class="form-group p-10 borad-5">
-                <label class=" dis-block ask-label bolder w-100">Buruh</label>
-                <div class="flex-beetwen w-100 gap-10">
-                    <select name="" class="w-100 br-none p-5" id="buruh" disabled>
-                    </select>
-                </div>
-            </div>
-            
-            <!-- Lokasi Jalan -->
-            <div class="form-group p-10 borad-5">
-                <div class="flex-beetwen ask-label align-items-center">
-                    <label class=" dis-block  bolder">Lokasi :</label>
-                </div>
-                <div class="radio-list flex-start gap-10 flex-wrap  clr-somegrey" id="lokasi-box">
-                </div>
-                <div class="flex-beetwen w-100 gap-10 mb-1 mt-1 dis-none" id="lokasi-manual-box">
-                    <input type="text" id="lokasi-manual" class="w-100 p-5 borad-3" placeholder="Lainnya (isi jika tidak ada di pilihan atas)">
-                </div>
-            </div>
+            <div id="hadir-form">
 
-            
-            <!-- Keterangan -->
-            <div class="form-group p-10 borad-5">
-                <label class=" dis-block ask-label bolder w-100">Keterangan (opsional)</label>
-                <div class="flex-beetwen mt-1 w-100 gap-10">
-                    <textarea id="keterangan" class="w-100 p-5 borad-3" placeholder="Jawaban Anda" rows="4"></textarea>
+                <!-- Koordinat -->
+                <div class="form-group p-10 borad-5 relative hidden" data-hide="hide">
+                    <div class="loader-content absolute-top w-100 h-100 grid-center dis-none" id="loader-koordinat">
+                        <div class="loader" id="the-loader"></div>
+                    </div>
+                    <div class="flex-beetwen align-items-center ask-label">
+                        <label class=" dis-block bolder w-100">Koordinat :</label>
+                        <div class="green p-5 borad-3 grid-center pointer" id="getCoord" title="Deteksi Lokasi">
+                            <i class="fas fa-location fz-16 pointer"></i>
+                        </div>
+                    </div>
+                    <div class="flex-beetwen w-100 gap-10">
+                        <input type="text" id="koordinat" readonly class="w-100 p-5 borad-3" placeholder="Tekan tombol di samping kanan atas untuk mendeteksi lokasi">
+                    </div>
+                    <p class="m-0 p-0 fz-10 mt-1" id="koordinat-text"></p>
                 </div>
-            </div>
 
-            <!-- Photo -->
-            <div class="form-group p-10 borad-5" id="photo-box-content">
-                <label class=" dis-block ask-label bolder w-100">Photo</label>
-                <div class="flex-beetwen flex-column mt-1 w-100 gap-10 relative" id="photo-area">
-                    <div class="photo hidden relative hidden">
-                        <img src="" alt="" class="" id="image-photo">
-                        <span class="align-center p-5 white" id="to-capture"><i class="fas fa-camera clr-somegrey"></i></span>
+                <!-- Tipe -->
+                <div class="form-group p-10 borad-5">
+                    <div class="flex-beetwen ask-label align-items-center">
+                        <label class=" dis-block  bolder">Tipe</label>
+                    </div>
+                    <div class="radio-list flex-start gap-10 flex-wrap  clr-somegrey pt-1">
+                        <label class="radio-inline pointer">
+                            <input type="radio" name="tipe" value="Taman"> Taman
+                        </label>
+                        <label class="radio-inline pointer">
+                            <input type="radio" name="tipe" value="Berem"> Berem
+                        </label>
                     </div>
                 </div>
-            </div>
 
-            <button class="grey  p-10 w-100 fz-17 borad-5 bolder" id="submit">KIRIM</button>
+                <!-- Pengawas -->
+                <div class="form-group p-10 borad-5">
+                    <label class=" dis-block ask-label bolder w-100">Pengawas</label>
+                    <div class="flex-beetwen w-100 gap-10">
+                        <select name="" class="w-100 br-none p-5" disabled id="pengawas">
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Buruh -->
+                <div class="form-group p-10 borad-5">
+                    <label class=" dis-block ask-label bolder w-100">Buruh</label>
+                    <div class="flex-beetwen w-100 gap-10">
+                        <select name="" class="w-100 br-none p-5" id="buruh" disabled>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Lokasi Jalan -->
+                <div class="form-group p-10 borad-5"  data-hide="hide">
+                    <div class="flex-beetwen ask-label align-items-center">
+                        <label class=" dis-block  bolder">Lokasi :</label>
+                    </div>
+                    <div class="radio-list flex-start gap-10 flex-wrap  clr-somegrey" id="lokasi-box">
+                    </div>
+                    <div class="flex-beetwen w-100 gap-10 mb-1 mt-1 dis-none" id="lokasi-manual-box">
+                        <input type="text" id="lokasi-manual" class="w-100 p-5 borad-3" placeholder="Lainnya (isi jika tidak ada di pilihan atas)">
+                    </div>
+                </div>
+
+                
+                <!-- Keterangan -->
+                <div class="form-group p-10 borad-5">
+                    <label class=" dis-block ask-label bolder w-100">Keterangan</label>
+                    <div class="flex-beetwen mt-1 w-100 gap-10">
+                        <textarea id="keterangan" class="w-100 p-5 borad-3" placeholder="Jawaban Anda" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <!-- izin/sakit file -->
+                <div id="other-form" class="form-group p-10 borad-5 dis-none">
+                    <label class=" dis-block ask-label bolder w-100">File (opsional)</label>
+                    <div class="flex-beetwen mt-1 w-100 gap-10">
+                        <input type="file" class="br-none" id="other-file">
+                    </div>
+                    <span id="base64Result" class="fz-14"></span>
+                </div>
+
+                <!-- Photo -->
+                <div class="form-group p-10 borad-5" id="photo-box-content"  data-hide="hide">
+                    <label class=" dis-block ask-label bolder w-100">Photo</label>
+                    <div class="flex-beetwen flex-column mt-1 w-100 gap-10 relative" id="photo-area">
+                        <div class="photo hidden relative hidden">
+                            <img src="" alt="" class="" id="image-photo">
+                            <span class="align-center p-5 white" id="to-capture"><i class="fas fa-camera clr-somegrey"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="grey  p-10 w-100 fz-17 borad-5 bolder" id="submit">KIRIM</button>
+            </div>
 
             
         </div>

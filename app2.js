@@ -404,6 +404,7 @@ class absensi {
         this.canvasElement  = document.createElement("canvas")
         this.cameraError    = document.querySelector("#camera-error")
 
+        this.Docs           = null
         this.file           = null
         this.Reciept        = this.makeInsecureUUID()
 
@@ -438,7 +439,9 @@ class absensi {
             Buruh       : document.querySelector("#buruh"),
             Photo       : document.querySelector("#image-photo"),
             Keterangan  : document.querySelector("#keterangan"),
-            Submit      : document.querySelector("#submit")
+            Submit      : document.querySelector("#submit"),
+            Status      : document.querySelectorAll("input[name='status']"),
+            Docs        : document.querySelector("#other-file")
         }
     }
     
@@ -463,6 +466,57 @@ class absensi {
             if (target.id == "verify-absen") return this.reset()
             if (target.id == "verify-cek_data") return document.querySelector("#to-data").click()
         })
+
+        this.elements().Status.forEach(radio => {
+            radio.addEventListener("change", () => {
+                if (radio.value == "Sakit" || radio.value == "Izin") {
+                    document.querySelectorAll("[data-hide='hide'").forEach(hide => hide.classList.contains("dis-none") ? "" : hide.classList.add("dis-none"))
+                    document.querySelector("#other-form").classList.remove("dis-none")
+                }
+                else {
+                    document.querySelectorAll("#other-form").forEach(form => form.classList.toggle(true, "dis-none"))
+                    document.querySelectorAll("[data-hide='hide'").forEach(hide => hide.classList.contains("dis-none") ? hide.classList.remove("dis-none") : "")
+                }
+            })
+        })
+
+        this.elements().Docs.addEventListener('change', (event) => {
+            const resultElement = document.querySelector("#base64Result")
+            resultElement.textContent = ""; // Bersihkan hasil sebelumnya
+
+            if (event.target.files.length === 0) {
+                resultElement.textContent = "Tidak ada file yang dipilih.";
+                this.Docs = null
+                return;
+            }
+
+            const file = event.target.files[0]; 
+            const fileType = file.type; // Contoh: "image/jpeg", "image/png"
+
+            // 1. Pengecekan Inti: Cek apakah MIME Type adalah GAMBAR
+            if (!fileType.startsWith('image/')) {
+                resultElement.style.color = 'red';
+                resultElement.textContent = `❌ ERROR: Hanya file gambar (foto) yang diperbolehkan. Tipe file Anda: ${fileType}`;
+                
+                // Opsional: Reset input agar pengguna memilih ulang
+                event.target.value = ''; 
+                return; 
+            }
+
+            // --- 2. JIKA LULUS, LANJUTKAN KE KONVERSI BASE64 ---
+            
+            // Konversi ke Base64
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64String = e.target.result.split(',')[1]
+                this.Docs = base64String    
+                resultElement.style.color = 'green';
+                resultElement.innerHTML = ``;
+                // Lakukan pengiriman data ke server atau operasi lain di sini
+            };
+
+            reader.readAsDataURL(file);
+        });
 
         document.querySelector("#update-data").onclick = async () => this.requestData()
 
@@ -1074,14 +1128,27 @@ class absensi {
     // form control method
     collectAndCheck() {
         try {
-
             let param = true
-            const tipe = document.querySelector(`input[name="tipe"]:checked`)
-            const TIPE = tipe ? tipe.value : " "
-            const lokasi = document.querySelector(`input[name="lokasi"]:checked`)
-            const manual = this.manualInput.value.trim()
-            const LOKASI = lokasi ? lokasi.value : (manual == "" ? " " : manual)
-            this.collectData = {
+            const status    = document.querySelector(`input[name="status"]:checked`)
+            const STATUS    = status ? status.value : false
+            const tipe      = document.querySelector(`input[name="tipe"]:checked`)
+            const TIPE      = tipe ? tipe.value : " "
+            const lokasi    = document.querySelector(`input[name="lokasi"]:checked`)
+            const manual    = this.manualInput.value.trim()
+            const LOKASI    = lokasi ? lokasi.value : (manual == "" ? " " : manual)
+            if (STATUS == "Izin" || STATUS == "Sakit") this.collectData = {
+                Koordinat   : "x",
+                Tempat      : "x",
+                Tipe        : TIPE.trim(),
+                Pengawas    : this.elements().Pengawas.value.trim(),
+                Buruh       : this.elements().Buruh.value.trim(),
+                Lokasi      : "x",
+                File        : this.Docs,
+                Keterangan  : this.elements().Keterangan.value,
+                Reciept     : this.Reciept,
+                Status      : STATUS,
+            }
+            else this.collectData = {
                 Koordinat   : this.elements().Koordinat.value.trim(),
                 Tempat      : document.querySelector("#koordinat-text").textContent,
                 Tipe        : TIPE.trim(),
@@ -1090,11 +1157,12 @@ class absensi {
                 Lokasi      : LOKASI.trim(),
                 File        : this.file,
                 Keterangan  : this.elements().Keterangan.value,
-                Reciept     : this.Reciept
+                Reciept     : this.Reciept,
+                Status      : STATUS
             }
             Object.keys(this.collectData).forEach(data => {
-                if (data == "Keterangan") return
-                //console.log(data + " : " + (data == "File" ? this.collectData[data].nama :   this.collectData[data]))
+                if (data == "Keterangan" && STATUS !== "Hadir") return
+                if (STATUS !== "Hadir" && data == "File") return
                 if (data == "File" && !this.collectData[data].nama ) return param = false
                 if (this.collectData[data] == "" || !this.collectData[data]) return param = false
             })
@@ -1191,6 +1259,7 @@ class absensi {
         document.querySelectorAll("input[type='text'], select, textarea").forEach(input => input.value = "")
         document.querySelector("#image-photo").src = ""
         this.file = null
+        this.Docs = null
         this.Reciept = null
         this.collectData = null
         this.elements().Submit.classList.add("grey")
